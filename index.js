@@ -64,12 +64,12 @@ function mortgageCalculator() {
  let periods = years * 12;
 
 
- let n1 = (1 + monthlyInterestRate) ^ periods;
+ let n1 = Math.pow(1 + monthlyInterestRate, periods);
  let numerator = principal * n1 * monthlyInterestRate;
  let denominator = n1 - 1;
  let monthlyRate = numerator / denominator;
 
- return `name, your monthly rate is ${monthlyRate}`;
+ return `${name}, your monthly rate is ${Math.round(monthlyRate)}`;
 }
 mortgageCalculator()
 
@@ -88,7 +88,7 @@ function mortgageCalculator(P, I, N) {
  let periods = N * 12;
 
 
- let n1 = (1 + monthlyInterestRate) ^ periods;
+ let n1 = Math.pow(1 + monthlyInterestRate, periods);
  let numerator = P * n1 * monthlyInterestRate;
  let denominator = n1 - 1;
  let monthlyRate = numerator / denominator;
@@ -96,7 +96,7 @@ function mortgageCalculator(P, I, N) {
  return Math.round(monthlyRate);
 }
 
-mortgageCalculator(200000, 0.05, 30)
+mortgageCalculator(200000, 0.05, 30);
 
 
 
@@ -108,6 +108,33 @@ Then, add control flow within your function such that IF creditScore is above 74
 Hint: To drop an interest rate by 5% you can take monthlyRate and multiply it by 0.95. Similarly, to increase an interest rate by 5% you'd do monthlyRate * 1.05. 
 */
 
+
+function mortgageCalculator(score) {
+ let principal = 200000;
+ let interestRate = 0.05;
+ let years = 30;
+
+
+
+ let monthlyInterestRate = interestRate / 12;
+ let periods = years * 12;
+
+
+ let n1 = Math.pow(1 + monthlyInterestRate, periods);
+ let numerator = principal * n1 * monthlyInterestRate;
+ let denominator = n1 - 1;
+ let monthlyRate = numerator / denominator;
+
+ if (score >= 740) {
+  return Math.floor(monthlyRate * 1.05);
+ } else if (score > 660) {
+  return Math.floor(monthlyRate * 0.95);
+ } else {
+  return Math.floor(monthlyRate);
+ }
+
+}
+mortgageCalculator(700)
 
 
 
@@ -126,6 +153,31 @@ For example, variableInterestRate(200000, 0.04, 30) should console.log:
 "{Name}, with an interest rate of 0.055, your monthly rate is $1136"
 "{Name}, with an interest rate of 0.06, your monthly rate is $1199"
 */
+
+
+function variableInterestRate(P, I, N, Name) {
+ let monthlyInterestRate = I / 12;
+ let periods = N * 12;
+ let name = Name;
+
+ let n1 = Math.pow(1 + monthlyInterestRate, periods);
+ let numerator = P * n1 * monthlyInterestRate;
+ let denominator = n1 - 1;
+ let monthlyRate = numerator / denominator;
+
+ for (let i = 0; i < 10; i++) {
+  if (I > 0.05) {
+   I = I * .02 && Math.floor(monthlyRate * .02)
+  } else if (I < 0.05) {
+   I = I / .02 && Math.floor(monthlyRate / .02)
+  }
+  console.log(`${name}, with an interest rate of ${I}, your monthly rate is ${monthlyRate}`)
+ }
+
+}
+
+variableInterestRate(200000, 0.04, 30, "David");
+
 
 
 
